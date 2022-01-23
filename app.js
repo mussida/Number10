@@ -21,9 +21,10 @@ setInterval(function(){
     
     // Lettura del file condiviso con l'applicazione che inserisce il numero di vendite
     readVendite();
-
+    console.log(beers);
     // Ricalcolo dei prezzi
     getNewPrices();
+    console.log(beers);
 
     // Verifica se il prezzo è salito o sceso rispetto alla sessione precedente
     for(let i = 0; i < beers.length; i++){
@@ -74,47 +75,20 @@ function display() {
     ulList.innerHTML = newList;
 }
 
-/*
-function getNewPrices() {
-    let coeff = 0.5;
-    //ciclo for su tutte le birre
-    for(let i = 0; i < beers.length; i++) {
-        //aumento del costo della birra i-esima in funzione delle vendite
-        //determinare coeff = coefficiente di aumento prezzo per ogni unità venduta
-        let incremento = coeff * beers[i].vendite;
-        beers[i].price += Math.round(incremento);
-        
-        //adeguamento prezzo seguendo l'incremento dell'i-esima birra
-        for(let j = 0; j < beers.length; j++) {
-
-            if( i !== j ) {
-                //ridistribuzione dell'incremento di prezzo sugli altri prezzi
-                let decremento = Math.round(incremento) / (beers.length-1);
-                beers[j].price -= Math.round(decremento);
-            }
-        }
-    }
-}
-*/
-
 function getNewPrices() {
     
     for(let i = 0; i < beers.length; i++) {
-        
-        for(let j=0; j <= beers[i].vendite; j++){
-            beers[i].price += 0.50;    
-
-            for( let s=0; s< beers.length; s++){
-                if( beers[s]!= beers[i]){
-                    beers[s].price-=0.05;
-                }
-            }
-        }
+        let numVendite = beers[i].vendite; 
+        for(let j = 0; j < numVendite; j++) {
+           beers[i].price += 0.50;
+           for(let z = 0; z < beers.length; z++) {
+               if(z !== i) {
+                   beers[z].price -= 0.25;
+               }
+           }
+       }
     }
 }
-
-
-
 
 function readVendite() {
     fetch('data.txt')
@@ -125,7 +99,6 @@ function readVendite() {
         for(let i = 0; i < beers.length; i++){
             beers[i].vendite = parseInt(vendite[i]);
         }
-        console.log(beers);    
     });
 }
 

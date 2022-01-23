@@ -74,7 +74,7 @@ function display() {
     ulList.innerHTML = newList;
 }
 
-
+/*
 function getNewPrices() {
     let coeff = 0.5;
     //ciclo for su tutte le birre
@@ -95,6 +95,26 @@ function getNewPrices() {
         }
     }
 }
+*/
+
+function getNewPrices() {
+    
+    for(let i = 0; i < beers.length; i++) {
+        
+        for(let j=0; j <= beers[i].vendite; j++){
+            beers[i].price += 0.50;    
+
+            for( let s=0; s< beers.length; s++){
+                if( beers[s]!= beers[i]){
+                    beers[s].price-=0.05;
+                }
+            }
+        }
+    }
+}
+
+
+
 
 function readVendite() {
     fetch('data.txt')
